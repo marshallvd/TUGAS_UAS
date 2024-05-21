@@ -13,10 +13,12 @@
     <div class="container mx-auto px-4">
         <div class="navbar bg-base-100">
             <div class="flex-1">
-                <a href="{{ route('dashboard') }}"  class="btn btn-ghost text-xl">Dashboard</a>
+                <a href="{{ route('dashboard') }}"  class="btn btn-ghost text-xl">Jalanan</a>
             </div>
             <div class="flex-none">
                 <div class="dropdown dropdown-end">
+
+                    
                     <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                         
                     </div>
@@ -24,7 +26,7 @@
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="" />
+                            <img src="{{ asset('gis_uas\storage\assets\img\logo.jpeg') }}" alt="Avatar" class="w-full h-full rounded-full" />
                         </div>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -39,11 +41,13 @@
                 </div>
             </div>
         </div>
- 
+
         <div>
             <h1 class="text-3xl">@yield('title')</h1>
             <div>@yield('contents')</div>
         </div>
+
+        @extends('layouts.footer')
     </div>
 </body>
 </html>

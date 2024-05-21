@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@extends('layouts.header')
 
 @section('contents')
 <div>
@@ -9,9 +9,13 @@
             <div class="max-w-md">
                 <h1 class="mb-5 text-5xl font-bold">Welcome to Jalanan</h1>
                 <p class="mb-5">Jalanan adalah sebuah platform website yang bisa membantu kalian untuk mengetahui jalan-jalan di Indonesia</p>
-                <button class="btn btn-primary">Get Started</button>
+                <a href="{{ route('home') }}" class="btn btn-primary">Get Started</a>
             </div>
         </div>
     </div>
+    
 </div>
+
+
 @endsection
+
