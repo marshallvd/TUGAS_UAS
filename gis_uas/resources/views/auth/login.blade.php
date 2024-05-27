@@ -60,7 +60,7 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            
+            alert('test')
             let isValid = true;
             const form = document.getElementById('loginForm')
 
@@ -100,7 +100,8 @@
                         alert(data.meta.message);
                         // Set token ke localStorage
                         localStorage.setItem("token", data.meta.token);
-                        window.location.href = '/home.html';
+                        console.log(localStorage.getItem('token'))
+                        // window.location.href = '/home.html';
                     } else {
                         alert('Failed to submit Login form. Please try again later.');
                     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -24,18 +25,34 @@ class AuthController extends Controller
 
     public function registerSave(Request $request)
     {
-        Validator::make($request->all(), [
+        
+        $data = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|confirmed'
+            'password' => 'required'
         ])->validate();
-
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'level' => 'Admin'
         ]);
+        try {
+            $response = Http::post('https://gisapis.manpits.xyz/api/register', $data);
+            if ($response->successful()) {
+                $responseData = $response->json();
+                if ($responseData['meta']['code'] == 200) {
+
+                    return redirect()->route('login')->with('success', $responseData['meta']['message']);
+                } else {
+                    return back()->withErrors(['message' => 'Registration failed. Please try again.']);
+                }
+            } else {
+                return back()->withErrors(['message' => 'Registration failed. Please try again.']);
+            }
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'An error occurred: ' . $e->getMessage()]);
+        }
 
         return redirect()->route('login');
     }
@@ -47,11 +64,10 @@ class AuthController extends Controller
 
     public function loginAction(Request $request)
     {
-        Validator::make($request->all(), [
+        $data = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
         ])->validate();
-
         if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
@@ -59,7 +75,23 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+        try {
+            $response = Http::post('https://gisapis.manpits.xyz/api/login', $data);
+            if ($response->successful()) {
+                $responseData = $response->json();
+                if (isset($responseData['meta']['token'])) {
+                    session(['token' => $responseData['meta']['token']]);
 
+                    return redirect()->route('dashboard')->with('success', $responseData['meta']['message']);
+                } else {
+                    return back()->withErrors(['message' => 'Login failed. Please try again.']);
+                }
+            } else {
+                return back()->withErrors(['message' => 'Login failed. Please try again.']);
+            }
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'An error occurred: ' . $e->getMessage()]);
+        }
         return redirect()->route('dashboard');
     }
 

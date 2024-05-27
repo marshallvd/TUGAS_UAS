@@ -156,6 +156,7 @@
         </div>
     </div>
 </div>
+<meta name="api-token" content="{{ session('token') }}">
 @endsection
 
 @push('javascript')
@@ -269,8 +270,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem("token");
-            console.log('Token:', token); 
+            const token = document.querySelector('meta[name="api-token"]').getAttribute('content');
+            console.log('Token:', token);
             
             const provinceSelect = document.getElementById('province');
             const kabupatenSelect = document.getElementById('kabupaten');
@@ -285,10 +286,10 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Provinces:', data.provinces); // Log data provinces untuk debug
-                data.provinces.forEach(province => {
+                data.provinsi.forEach(province => {
                     const option = document.createElement('option');
                     option.value = province.id;
-                    option.textContent = province.name;
+                    option.textContent = province.provinsi;
                     provinceSelect.appendChild(option);
                 });
             })
