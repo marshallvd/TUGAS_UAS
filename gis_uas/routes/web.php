@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PolylineController;
-
+use App\Http\Controllers\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,3 +51,11 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 });
+
+
+
+Route::get('/regions', [ApiController::class, 'getAllRegions']);
+Route::get('/province/{id}', [ApiController::class, 'getProvinceById']);
+Route::get('/kabupaten/province/{id}', [ApiController::class, 'getKabupatenByProvinceId']);
+Route::get('/kecamatan/kabupaten/{id}', [ApiController::class, 'getKecamatanByKabupatenId']);
+Route::get('/desa/kecamatan/{id}', [ApiController::class, 'getDesaByKecamatanId']);
