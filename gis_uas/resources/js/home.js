@@ -10,12 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => {
         const userName = response.data.data.user.name; // Replace this with dynamic data
         document.querySelector('.user-name').textContent = userName;
+
+        
     })
     .catch(error => {
         console.log(error);
     });
 
-    const map = L.map('map').setView([-5.730814344013158, 116.59561511026043], 6);
+    
+
+    const map = L.map('map').setView([-8.373099488726732, 115.18725551951702], 10);
 
     const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 20,
@@ -27,18 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         iconUrl :"{{ asset('storage/marker/marker.png') }}",
         iconSize:     [50, 50], // size of the icon
         shadowSize:   [50, 50], // size of the shadow
-        // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        // shadowAnchor: [4, 62],  // the same for the shadow
-        // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        
     })
-    var marker = L.marker([-5.730814344013158, 116.59561511026043],{
+    var marker = L.marker([-8.373099488726732, 115.18725551951702],{
         icon:iconMarker,
         draggable : true
     })
     .bindPopup('Ada apa disini?')
     .addTo(map);
 
-    // -8.796408453257625, 115.17634384739371
     
 
      // Membuat popup baru

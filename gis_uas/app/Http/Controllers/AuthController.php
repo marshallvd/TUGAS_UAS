@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +11,12 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    // Jangan tambahkan middleware 'auth' di sini
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except(['register', 'registerSave', 'login', 'loginAction']);
+    // }
+
     public function register()
     {
         return view('auth.register');
@@ -32,13 +37,12 @@ class AuthController extends Controller
             'level' => 'Admin'
         ]);
 
-
         return redirect()->route('login');
     }
 
     public function login()
     {
-        return view('auth/login');
+        return view('auth.login');
     }
 
     public function loginAction(Request $request)
@@ -78,3 +82,5 @@ class AuthController extends Controller
         return view('frontend.home');
     }
 }
+
+
